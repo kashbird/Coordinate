@@ -8,21 +8,31 @@ addEventListener('load', () => {
     const targetHalfWidth = targetRect.width / 2;
     const targetHalfHeight = targetRect.height / 2;
 
+    let curX = 0;
+    let curY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+
     document.addEventListener('mousemove', (e) => {
-        const x = e.clientX;
-        const y = e.clientY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
         
-        // vertical.style.transform = `translateX(${변수}px)`
-        vertical.style.transform = `translateX(${x}px)`;
-        horizontal.style.transform = `translateY(${y}px)`;
-        target.style.transform = `translate(${x-targetHalfWidth}px, ${y-targetHalfHeight}px)`;
-        tag.style.transform = `translate(${x}px, ${y}px)`;
-        tag.innerHTML = `${x}px, ${y}px`;
-        
-        if(x > 1000) {
-            tag.style.opacity = '50%';
-        } else {
-            tag.style.opacity = '100%';
-        }
+
+    
     })
+
+    function animate() {
+        requestAnimationFrame(animate);
+        curX += (mouseX - curX) * 0.1;
+        curY += (mouseY - curY) * 0.1;
+
+        vertical.style.transform = `translateX(${curX}px)`;
+        horizontal.style.transform = `translateY(${curY}px)`;
+        target.style.transform = `translate(${curX-targetHalfWidth}px, ${curY-targetHalfHeight}px)`;
+        tag.style.transform = `translate(${curX}px, ${curY}px)`;
+        tag.innerHTML = `${Math.ceil(curX)}px, ${Math.ceil(curY)}px`;
+    }
+
+    animate();
+
 });
